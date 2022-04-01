@@ -98,4 +98,9 @@ class AboutSymbols < Neo::Koan
   # THINK ABOUT IT:
   #
   # Why is it not a good idea to dynamically create a lot of symbols?
+  #
+  # You might end up accidentally describing two different things with the same symbol: "ca" + "tdog" and "cat" + "dog" for example.
+  # Perhaps statically defined symbols can be stored more effeciently in program memory than dynamically created ones.. not sure about that though.
+  # Perhaps if dynamic symbols are stored on the heap, and have global scope, you can use up heap memory by declaring lots of them.
+  # That is the reason per SO: https://stackoverflow.com/questions/4573991/why-is-it-not-a-good-idea-to-dynamically-create-a-lot-of-symbols-in-ruby-for-ve
 end
