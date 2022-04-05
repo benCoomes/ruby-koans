@@ -14,12 +14,24 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
+  assert_valid(a, b, c)
+
   if(a == b && b == c) 
     :equilateral
   elsif (a == b || b == c || a == c)
     :isosceles
   else
     :scalene
+  end
+end
+
+def assert_valid(a, b, c)
+  if(a <= 0 || b <= 0 || c <= 0)
+    raise TriangleError, "All sides must have positive length."
+  end
+
+  if (a + b <= c || a + c <= b || c + b <= a)
+    raise TriangleError, "The sum of the length of each pair of sides must be longer than the length of the remaining side."
   end
 end
 
