@@ -106,6 +106,19 @@ class AboutSandwichCode < Neo::Koan
 
   def test_open_handles_the_file_sandwich_when_given_a_block
     assert_equal 4, count_lines3("example_file.txt")
-  end
 
+    # my additions below - shows the test better
+    file = open("example_file.txt")
+    assert_equal false, file.closed?
+    file.close
+    assert_equal true, file.closed?
+
+    from_block = nil
+    open("example_file.txt") do |block_file|
+      from_block = block_file
+      assert_equal false, from_block.closed?
+    end
+
+    assert_equal true, from_block.closed?
+  end
 end

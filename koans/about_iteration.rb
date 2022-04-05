@@ -127,5 +127,9 @@ class AboutIteration < Neo::Koan
   #  is used rather than the enclosing scope. In that case, the first way encorages cohesion.
   #
   # When you get to the "AboutSandwichCode" koan, recheck your answer.
+  #
+  #  Coming back to this... I don't think the first answer is correct. I think the second answer is still correct.
+  #  But the intended answer is that passing a block to File.open allows for the file to be closed without having
+  #  to write new code to do that everywhere an open file is needed.
 
 end
