@@ -12,13 +12,70 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # missing handler and any other supporting methods.  The specification
 # of the Proxy class is given in the AboutProxyObjectProject koan.
 
-class Proxy
+class ArrayProxy
+  attr_accessor :messages
+
   def initialize(target_object)
     @object = target_object
-    # ADD MORE CODE HERE
+    @messages = []
   end
 
-  # WRITE CODE HERE
+  def method_missing(method_name, *args, &block)
+    @messages << method_name
+    @object.send(method_name, *args, &block)
+  end
+  
+  def called?(method_name)
+    @messages.any?(method_name)
+  end
+
+  def number_of_times_called(method_name)
+    @messages.count(method_name)
+  end
+end
+
+class HashProxy
+  def initialize(target_object)
+    @object = target_object
+    @messageHash = Hash.new
+  end
+
+  def method_missing(method_name, *args, &block)
+    if @messageHash.key?(method_name)
+      @messageHash[method_name] = @messageHash[method_name] + 1 
+    else 
+      @messageHash[method_name] = 1
+    end
+
+    @object.send(method_name, *args, &block)
+  end
+
+  def messages
+    @messageHash.keys
+  end
+  
+  def called?(method_name)
+    @messageHash.key?(method_name)
+  end
+
+  def number_of_times_called(method_name)
+    if @messageHash.key?(method_name)
+      @messageHash[method_name] 
+    else
+      0
+    end
+  end
+end
+
+# toggle this comment with the declaration below
+# to use hash-based proxy or array-based proxy.
+# I'd expect HashProxy to be more effecient, but likely suffers from
+# concurrency errors. << may not be concurrently safe on arrays either though.
+# Is there even concurrency built in to Ruby?...
+# class Proxy < HashProxy
+# end
+
+class Proxy < HashProxy
 end
 
 # The proxy object should pass the following Koan:
